@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 
 public class Game {
     //replaced string literals with constants
-    private static final String categoryRock = "Rock";
-    private static final String categoryPop = "Pop";
-    private static final String categoryScience = "Science";
-    private static final String categorySports = "Sports";
+    private static final String ROCK = "Rock";
+    private static final String POP = "Pop";
+    private static final String SCIENCE = "Science";
+    private static final String SPORTS = "Sports";
 
     private Logger logger;
 
@@ -19,10 +19,10 @@ public class Game {
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
 
-    LinkedList categoryPopQuestions = new LinkedList();
-    LinkedList categoryScienceQuestions = new LinkedList();
-    LinkedList categorySportsQuestions = new LinkedList();
-    LinkedList categoryRockQuestions = new LinkedList();
+    LinkedList POPQuestions = new LinkedList();
+    LinkedList SCIENCEQuestions = new LinkedList();
+    LinkedList SPORTSQuestions = new LinkedList();
+    LinkedList ROCKQuestions = new LinkedList();
 
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
@@ -30,10 +30,10 @@ public class Game {
     public Game() {
         logger = Logger.getLogger(Game.class.getName());
         for (int i = 0; i < 50; i++) {
-            categoryPopQuestions.addLast(createQuestion(categoryPop, i));
-            categoryScienceQuestions.addLast(createQuestion(categoryScience, i));
-            categorySportsQuestions.addLast(createQuestion(categorySports, i));
-            categoryRockQuestions.addLast(createQuestion(categoryRock, i));
+            POPQuestions.addLast(createQuestion(POP, i));
+            SCIENCEQuestions.addLast(createQuestion(SCIENCE, i));
+            SPORTSQuestions.addLast(createQuestion(SPORTS, i));
+            ROCKQuestions.addLast(createQuestion(ROCK, i));
         }
     }
 
@@ -74,7 +74,7 @@ public class Game {
                 places[currentPlayer] = places[currentPlayer] + roll;
                 if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-                logger.log(Level.ALL, "{0}'s new location is {1}"
+                logger.log(Level.ALL, "{0}\'s new location is {1}"
                         , new Object[]{players.get(currentPlayer), places[currentPlayer]});
                 logger.log(Level.ALL, "The category is {0}", currentCategory());
                 askQuestion();
@@ -88,7 +88,7 @@ public class Game {
             places[currentPlayer] = places[currentPlayer] + roll;
             if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-            logger.log(Level.ALL, "{0}'s new location is {1}"
+            logger.log(Level.ALL, "{0}\'s new location is {1}"
                     , new Object[]{players.get(currentPlayer), places[currentPlayer]});
             logger.log(Level.ALL, "The category is {0}", currentCategory());
             askQuestion();
@@ -96,28 +96,31 @@ public class Game {
 
     }
 
-    private void askQuestion() {
-        if (currentCategory().equals( categoryPop)) {
-            System.out.println(categoryPopQuestions.removeFirst());
+    private Object askQuestion() {
+        Object question = null;
+        if (currentCategory().equals( POP)) {
+            question=POPQuestions.removeFirst();
         }
-        if (currentCategory().equals( categoryScience)) {
-            System.out.println(categoryScienceQuestions.removeFirst());
+        if (currentCategory().equals( SCIENCE)) {
+            question=SCIENCEQuestions.removeFirst();
         }
-        if (currentCategory().equals(categorySports)) {
-            System.out.println(categorySportsQuestions.removeFirst());
+        if (currentCategory().equals(SPORTS)) {
+            question=SPORTSQuestions.removeFirst();
         }
-        if (currentCategory().equals(categoryRock)) {
-            System.out.println(categoryRockQuestions.removeFirst());
+        if (currentCategory().equals(ROCK)) {
+            question=ROCKQuestions.removeFirst();
         }
+        logger.log(Level.ALL,question.toString());
+        return question;
     }
 
 
     //remainder operator covering all categories
     private String currentCategory() {
-        if (places[currentPlayer] % 4 == 0) return categoryPop;
-        if (places[currentPlayer] % 4 == 1) return categoryScience;
-        if (places[currentPlayer] % 4 == 2) return categorySports;
-        return categoryRock;
+        if (places[currentPlayer] % 4 == 0) return POP;
+        if (places[currentPlayer] % 4 == 1) return SCIENCE;
+        if (places[currentPlayer] % 4 == 2) return SPORTS;
+        return ROCK;
     }
 
     public boolean wasCorrectlyAnswered() {
