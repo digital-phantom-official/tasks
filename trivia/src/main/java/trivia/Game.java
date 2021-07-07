@@ -98,19 +98,19 @@ public class Game {
 
     private Object askQuestion() {
         Object question = null;
-        if (currentCategory().equals( POP)) {
-            question=popQuestions.removeFirst();
+        if (currentCategory().equals(POP)) {
+            question = popQuestions.removeFirst();
         }
-        if (currentCategory().equals( SCIENCE)) {
-            question=scienceQuestions.removeFirst();
+        if (currentCategory().equals(SCIENCE)) {
+            question = scienceQuestions.removeFirst();
         }
         if (currentCategory().equals(SPORTS)) {
-            question=sportsQuestions.removeFirst();
+            question = sportsQuestions.removeFirst();
         }
         if (currentCategory().equals(ROCK)) {
-            question=rockQuestions.removeFirst();
+            question = rockQuestions.removeFirst();
         }
-        logger.log(Level.ALL,question!=null?question.toString():null);
+        logger.log(Level.ALL, "{0}", question);
         return question;
     }
 
