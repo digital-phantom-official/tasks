@@ -19,10 +19,10 @@ public class Game {
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
 
-    LinkedList POPQuestions = new LinkedList();
-    LinkedList SCIENCEQuestions = new LinkedList();
-    LinkedList SPORTSQuestions = new LinkedList();
-    LinkedList ROCKQuestions = new LinkedList();
+    LinkedList popQuestions = new LinkedList();
+    LinkedList scienceQuestions = new LinkedList();
+    LinkedList sportsQuestions = new LinkedList();
+    LinkedList rockQuestions = new LinkedList();
 
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
@@ -30,10 +30,10 @@ public class Game {
     public Game() {
         logger = Logger.getLogger(Game.class.getName());
         for (int i = 0; i < 50; i++) {
-            POPQuestions.addLast(createQuestion(POP, i));
-            SCIENCEQuestions.addLast(createQuestion(SCIENCE, i));
-            SPORTSQuestions.addLast(createQuestion(SPORTS, i));
-            ROCKQuestions.addLast(createQuestion(ROCK, i));
+            popQuestions.addLast(createQuestion(POP, i));
+            scienceQuestions.addLast(createQuestion(SCIENCE, i));
+            sportsQuestions.addLast(createQuestion(SPORTS, i));
+            rockQuestions.addLast(createQuestion(ROCK, i));
         }
     }
 
@@ -99,16 +99,16 @@ public class Game {
     private Object askQuestion() {
         Object question = null;
         if (currentCategory().equals( POP)) {
-            question=POPQuestions.removeFirst();
+            question=popQuestions.removeFirst();
         }
         if (currentCategory().equals( SCIENCE)) {
-            question=SCIENCEQuestions.removeFirst();
+            question=scienceQuestions.removeFirst();
         }
         if (currentCategory().equals(SPORTS)) {
-            question=SPORTSQuestions.removeFirst();
+            question=sportsQuestions.removeFirst();
         }
         if (currentCategory().equals(ROCK)) {
-            question=ROCKQuestions.removeFirst();
+            question=rockQuestions.removeFirst();
         }
         logger.log(Level.ALL,question.toString());
         return question;
