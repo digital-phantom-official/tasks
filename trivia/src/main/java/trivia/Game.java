@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 
 public class Game {
     //replaced string literals with constants
-    private final String ROCK = "Rock";
-    private final String POP = "Pop";
-    private final String SCIENCE = "Science";
-    private final String SPORTS = "Sports";
+    private static final String categoryRock = "Rock";
+    private static final String categoryPop = "Pop";
+    private static final String categoryScience = "Science";
+    private static final String categorySports = "Sports";
 
     private Logger logger;
 
@@ -19,10 +19,10 @@ public class Game {
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
 
-    LinkedList popQuestions = new LinkedList();
-    LinkedList scienceQuestions = new LinkedList();
-    LinkedList sportsQuestions = new LinkedList();
-    LinkedList rockQuestions = new LinkedList();
+    LinkedList categoryPopQuestions = new LinkedList();
+    LinkedList categoryScienceQuestions = new LinkedList();
+    LinkedList categorySportsQuestions = new LinkedList();
+    LinkedList categoryRockQuestions = new LinkedList();
 
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
@@ -30,10 +30,10 @@ public class Game {
     public Game() {
         logger = Logger.getLogger(Game.class.getName());
         for (int i = 0; i < 50; i++) {
-            popQuestions.addLast(createQuestion(POP, i));
-            scienceQuestions.addLast(createQuestion(SCIENCE, i));
-            sportsQuestions.addLast(createQuestion(SPORTS, i));
-            rockQuestions.addLast(createQuestion(ROCK, i));
+            categoryPopQuestions.addLast(createQuestion(categoryPop, i));
+            categoryScienceQuestions.addLast(createQuestion(categoryScience, i));
+            categorySportsQuestions.addLast(createQuestion(categorySports, i));
+            categoryRockQuestions.addLast(createQuestion(categoryRock, i));
         }
     }
 
@@ -53,8 +53,8 @@ public class Game {
         purses[howManyPlayers()] = 0;
         inPenaltyBox[howManyPlayers()] = false;
 
-        logger.log(Level.WARNING,playerName + " was added");
-        logger.log(Level.ALL,"They are player number " + players.size());
+        logger.log(Level.ALL, "{0} was added", playerName);
+        logger.log(Level.ALL, "They are player number {0}", players.size());
         return true;
     }
 
@@ -63,24 +63,23 @@ public class Game {
     }
 
     public void roll(int roll) {
-        logger.log(Level.ALL,players.get(currentPlayer) + " is the current player");
-        logger.log(Level.ALL,"They have rolled a " + roll);
+        logger.log(Level.ALL, "{0} is the current player", players.get(currentPlayer));
+        logger.log(Level.ALL, "They have rolled a {0}", roll);
 
         if (inPenaltyBox[currentPlayer]) {
             if (roll % 2 != 0) {
                 isGettingOutOfPenaltyBox = true;
 
-                System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
+                logger.log(Level.ALL, "{0} is getting out of the penalty box", players.get(currentPlayer));
                 places[currentPlayer] = places[currentPlayer] + roll;
                 if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-                logger.log(Level.ALL,players.get(currentPlayer)
-                        + "'s new location is "
-                        + places[currentPlayer]);
-                logger.log(Level.ALL,"The category is " + currentCategory());
+                logger.log(Level.ALL, "{0}'s new location is {1}"
+                        , new Object[]{players.get(currentPlayer), places[currentPlayer]});
+                logger.log(Level.ALL, "The category is {0}", currentCategory());
                 askQuestion();
             } else {
-                logger.log(Level.ALL,players.get(currentPlayer) + " is not getting out of the penalty box");
+                logger.log(Level.ALL, "{0} is not getting out of the penalty box", players.get(currentPlayer));
                 isGettingOutOfPenaltyBox = false;
             }
 
@@ -89,48 +88,45 @@ public class Game {
             places[currentPlayer] = places[currentPlayer] + roll;
             if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-            logger.log(Level.ALL,players.get(currentPlayer)
-                    + "'s new location is "
-                    + places[currentPlayer]);
-            logger.log(Level.ALL,"The category is " + currentCategory());
+            logger.log(Level.ALL, "{0}'s new location is {1}"
+                    , new Object[]{players.get(currentPlayer), places[currentPlayer]});
+            logger.log(Level.ALL, "The category is {0}", currentCategory());
             askQuestion();
         }
 
     }
 
     private void askQuestion() {
-        if (currentCategory() == POP) {
-            System.out.println(popQuestions.removeFirst());
+        if (currentCategory().equals( categoryPop)) {
+            System.out.println(categoryPopQuestions.removeFirst());
         }
-        if (currentCategory() == SCIENCE) {
-            System.out.println(scienceQuestions.removeFirst());
+        if (currentCategory().equals( categoryScience)) {
+            System.out.println(categoryScienceQuestions.removeFirst());
         }
-        if (currentCategory() == SPORTS) {
-            System.out.println(sportsQuestions.removeFirst());
+        if (currentCategory().equals(categorySports)) {
+            System.out.println(categorySportsQuestions.removeFirst());
         }
-        if (currentCategory() == ROCK) {
-            System.out.println(rockQuestions.removeFirst());
+        if (currentCategory().equals(categoryRock)) {
+            System.out.println(categoryRockQuestions.removeFirst());
         }
     }
 
 
     //remainder operator covering all categories
     private String currentCategory() {
-        if (places[currentPlayer] % 4 == 0) return POP;
-        if (places[currentPlayer] % 4 == 1) return SCIENCE;
-        if (places[currentPlayer] % 4 == 2) return SPORTS;
-        return ROCK;
+        if (places[currentPlayer] % 4 == 0) return categoryPop;
+        if (places[currentPlayer] % 4 == 1) return categoryScience;
+        if (places[currentPlayer] % 4 == 2) return categorySports;
+        return categoryRock;
     }
 
     public boolean wasCorrectlyAnswered() {
         if (inPenaltyBox[currentPlayer]) {
             if (isGettingOutOfPenaltyBox) {
-                logger.log(Level.ALL,"Answer was correct!!!!");
+                logger.log(Level.ALL, "Answer was correct!!!!");
                 purses[currentPlayer]++;
-                logger.log(Level.ALL,players.get(currentPlayer)
-                        + " now has "
-                        + purses[currentPlayer]
-                        + " Gold Coins.");
+                logger.log(Level.ALL, "{0} now has {1} Gold Coins.",
+                        new Object[]{players.get(currentPlayer), purses[currentPlayer]});
 
                 boolean winner = didPlayerWin();
                 currentPlayer++;
@@ -146,12 +142,10 @@ public class Game {
 
         } else {
 
-            logger.log(Level.ALL,"Answer was corrent!!!!");
+            logger.log(Level.ALL, "Answer was correct!!!!");
             purses[currentPlayer]++;
-            logger.log(Level.ALL,players.get(currentPlayer)
-                    + " now has "
-                    + purses[currentPlayer]
-                    + " Gold Coins.");
+            logger.log(Level.ALL, "{0} now has {1} Gold Coins.",
+                    new Object[]{players.get(currentPlayer), purses[currentPlayer]});
 
             boolean winner = didPlayerWin();
             currentPlayer++;
@@ -162,8 +156,8 @@ public class Game {
     }
 
     public boolean wrongAnswer() {
-        logger.log(Level.ALL,"Question was incorrectly answered");
-        logger.log(Level.ALL,players.get(currentPlayer) + " was sent to the penalty box");
+        logger.log(Level.ALL, "Question was incorrectly answered");
+        logger.log(Level.ALL, "{0} was sent to the penalty box", players.get(currentPlayer));
         inPenaltyBox[currentPlayer] = true;
 
         currentPlayer++;
@@ -173,6 +167,6 @@ public class Game {
 
 
     private boolean didPlayerWin() {
-        return !(purses[currentPlayer] == 6);
+        return purses[currentPlayer] != 6;
     }
 }
