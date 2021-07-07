@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Game {
+    //replaced string literals with constants
+    private final String ROCK="Rock";
+    private final String POP="Pop";
+    private final String SCIENCE="Science";
+    private final String SPORTS="Sports";
+
     ArrayList players = new ArrayList();
     int[] places = new int[6];
     int[] purses = new int[6];
@@ -19,15 +25,15 @@ public class Game {
 
     public Game() {
         for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast(("Science Question " + i));
-            sportsQuestions.addLast(("Sports Question " + i));
-            rockQuestions.addLast(createRockQuestion(i));
+            popQuestions.addLast(createQuestion(POP,i));
+            scienceQuestions.addLast(createQuestion(SCIENCE,i));
+            sportsQuestions.addLast(createQuestion(SPORTS,i));
+            rockQuestions.addLast(createQuestion(ROCK,i));
         }
     }
 
-    public String createRockQuestion(int index) {
-        return "Rock Question " + index;
+    public String createQuestion(String type,int index) {
+        return type+" Question " + index;
     }
 
     public boolean isPlayable() {
@@ -88,27 +94,27 @@ public class Game {
     }
 
     private void askQuestion() {
-        if (currentCategory() == "Pop") {
+        if (currentCategory() == POP) {
             System.out.println(popQuestions.removeFirst());
         }
-        if (currentCategory() == "Science") {
+        if (currentCategory() == SCIENCE) {
             System.out.println(scienceQuestions.removeFirst());
         }
-        if (currentCategory() == "Sports") {
+        if (currentCategory() == SPORTS) {
             System.out.println(sportsQuestions.removeFirst());
         }
-        if (currentCategory() == "Rock") {
+        if (currentCategory() == ROCK) {
             System.out.println(rockQuestions.removeFirst());
         }
     }
 
 
-    //remainder operator covering all aspects
+    //remainder operator covering all categories
     private String currentCategory() {
-        if (places[currentPlayer] % 4 == 0) return "Pop";
-        if (places[currentPlayer] % 4 == 1) return "Science";
-        if (places[currentPlayer] % 4 == 2) return "Sports";
-        return "Rock";
+        if (places[currentPlayer] % 4 == 0) return POP;
+        if (places[currentPlayer] % 4 == 1) return SCIENCE;
+        if (places[currentPlayer] % 4 == 2) return SPORTS;
+        return ROCK;
     }
 
     public boolean wasCorrectlyAnswered() {
