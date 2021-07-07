@@ -74,7 +74,7 @@ public class Game {
                 places[currentPlayer] = places[currentPlayer] + roll;
                 if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-                logger.log(Level.ALL, "{0}\'s new location is {1}"
+                logger.log(Level.ALL, "New location of {0} is {1}"
                         , new Object[]{players.get(currentPlayer), places[currentPlayer]});
                 logger.log(Level.ALL, "The category is {0}", currentCategory());
                 askQuestion();
@@ -88,7 +88,7 @@ public class Game {
             places[currentPlayer] = places[currentPlayer] + roll;
             if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-            logger.log(Level.ALL, "{0}\'s new location is {1}"
+            logger.log(Level.ALL, "New location of {0} is {1}"
                     , new Object[]{players.get(currentPlayer), places[currentPlayer]});
             logger.log(Level.ALL, "The category is {0}", currentCategory());
             askQuestion();
